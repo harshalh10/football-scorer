@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import './game_choice.dart';
+import './screens/match.dart';
+import './screens/team_creation_screen.dart';
+import 'custom/game_choice.dart';
 import './config/palette.dart';
 
 void main() {
@@ -24,6 +26,11 @@ class MyApp extends StatelessWidget {
         accentColor: Palette.appColorAccent,
       ),
       home: MyHomePage(),
+      initialRoute: '/',
+      routes: {
+        '/team-creation': (context) => TeamCreationScreen(),
+        '/match': (context) => CurrentMatch(),
+      },
     );
   }
 }

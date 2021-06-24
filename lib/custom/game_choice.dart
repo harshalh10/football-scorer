@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 class GameChoice extends StatelessWidget {
   // const GameChoice({Key? key}) : super(key: key);
-  GameChoice(this.text);
-  final String text;
+  final String matchType;
+  GameChoice(this.matchType);
+
   @override
   Widget build(BuildContext context) {
     final appBar = AppBar();
@@ -22,14 +23,18 @@ class GameChoice extends StatelessWidget {
       child: InkWell(
         splashColor: Colors.lightBlue.withAlpha(30),
         onTap: () {
-          print('Card tapped.');
+          if (this.matchType == 'Quick Match') {
+            Navigator.pushNamed(context, '/team-creation',
+                arguments: this.matchType);
+            print('Quick Match Card tapped.');
+          }
         },
         child: SizedBox(
           width: appWidth * 0.7,
           height: appHeight * 0.2,
           child: Center(
             child: Text(
-              this.text,
+              this.matchType,
               style: TextStyle(
                 fontSize: 25,
                 // fontWeight: FontWeight.bold,
