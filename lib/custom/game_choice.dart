@@ -24,8 +24,11 @@ class GameChoice extends StatelessWidget {
         splashColor: Colors.lightBlue.withAlpha(30),
         onTap: () {
           if (this.matchType == 'Quick Match') {
-            Navigator.pushNamed(context, '/team-creation',
-                arguments: this.matchType);
+            Navigator.pushNamed(
+              context,
+              '/team-creation',
+              arguments: this.matchType,
+            );
             print('Quick Match Card tapped.');
           }
         },

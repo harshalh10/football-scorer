@@ -3,8 +3,8 @@ import 'package:flutter/services.dart';
 
 class TeamInputCard extends StatefulWidget {
   // const TeamInputCard({Key? key}) : super(key: key);
-  final String team;
-  TeamInputCard(this.team);
+  final String teamCardName;
+  TeamInputCard(this.teamCardName);
   bool flag = false;
   final teamNameController = TextEditingController(
     text: null,
@@ -15,20 +15,22 @@ class TeamInputCard extends StatefulWidget {
   final teamSubsController = TextEditingController(
     text: null,
   );
+
   bool inputTeamValidator() {
     this.flag = false;
-    if (teamNameController.text == null ||
-        teamPlayersController.text == null ||
-        teamSubsController.text == null) {
+    if (teamNameController.text.isEmpty ||
+        teamPlayersController.text.isEmpty ||
+        teamSubsController.text.isEmpty) {
       print("null");
       return this.flag;
     }
-    final int teamPlayers = int.parse(teamPlayersController.text);
-    final int teamSubs = int.parse(teamSubsController.text);
+    final int teamPlayers = int.parse(this.teamPlayersController.text);
+    final int teamSubs = int.parse(this.teamSubsController.text);
     if (teamPlayers < 3 || teamPlayers > 11 || teamSubs > 7) {
       print("players subs");
       return this.flag;
     }
+
     this.flag = true;
     return this.flag;
   }
@@ -53,7 +55,7 @@ class _TeamInputCardState extends State<TeamInputCard> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                widget.team,
+                widget.teamCardName,
                 style: TextStyle(
                   fontSize: 20,
                 ),
@@ -76,19 +78,26 @@ class _TeamInputCardState extends State<TeamInputCard> {
                   width: 10,
                 ),
                 Expanded(
-                  child: TextField(
-                    controller: widget.teamNameController,
-                    keyboardType: TextInputType.text,
-                    cursorColor: Colors.white,
-                    style: TextStyle(
-                      color: Colors.white,
+                  child: Card(
+                    color: Theme.of(context).accentColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
                     ),
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15.0),
+                    elevation: 4,
+                    child: TextField(
+                      controller: widget.teamNameController,
+                      keyboardType: TextInputType.text,
+                      cursorColor: Colors.white,
+                      style: TextStyle(
+                        color: Colors.white,
                       ),
-                      isDense: true, // Added this
-                      contentPadding: EdgeInsets.all(8),
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        isDense: true, // Added this
+                        contentPadding: EdgeInsets.all(7),
+                      ),
                     ),
                   ),
                 ),
@@ -111,23 +120,30 @@ class _TeamInputCardState extends State<TeamInputCard> {
                   width: 10,
                 ),
                 Expanded(
-                  child: TextField(
-                    controller: widget.teamPlayersController,
-                    keyboardType: TextInputType.number,
-                    cursorColor: Colors.white,
-                    inputFormatters: [
-                      FilteringTextInputFormatter.digitsOnly,
-                    ],
-                    style: TextStyle(
-                      color: Colors.white,
+                  child: Card(
+                    color: Theme.of(context).accentColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
                     ),
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15.0),
+                    elevation: 4,
+                    child: TextField(
+                      controller: widget.teamPlayersController,
+                      keyboardType: TextInputType.number,
+                      cursorColor: Colors.white,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                      ],
+                      style: TextStyle(
+                        color: Colors.white,
                       ),
-                      isDense: true,
-                      contentPadding: EdgeInsets.all(8),
-                      hintText: "3 to 11",
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        isDense: true,
+                        contentPadding: EdgeInsets.all(7),
+                        hintText: "3 to 11",
+                      ),
                     ),
                   ),
                 ),
@@ -150,23 +166,30 @@ class _TeamInputCardState extends State<TeamInputCard> {
                   width: 10,
                 ),
                 Expanded(
-                  child: TextField(
-                    controller: widget.teamSubsController,
-                    keyboardType: TextInputType.number,
-                    cursorColor: Colors.white,
-                    inputFormatters: [
-                      FilteringTextInputFormatter.digitsOnly,
-                    ],
-                    style: TextStyle(
-                      color: Colors.white,
+                  child: Card(
+                    color: Theme.of(context).accentColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
                     ),
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15.0),
+                    elevation: 4,
+                    child: TextField(
+                      controller: widget.teamSubsController,
+                      keyboardType: TextInputType.number,
+                      cursorColor: Colors.white,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                      ],
+                      style: TextStyle(
+                        color: Colors.white,
                       ),
-                      isDense: true,
-                      contentPadding: EdgeInsets.all(8),
-                      hintText: "0 to 7",
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        isDense: true,
+                        contentPadding: EdgeInsets.all(7),
+                        hintText: "0 to 7",
+                      ),
                     ),
                   ),
                 ),

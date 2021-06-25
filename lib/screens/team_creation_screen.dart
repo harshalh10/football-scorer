@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../custom/team_input_card.dart';
+import '../models/team.dart';
 
 class TeamCreationScreen extends StatefulWidget {
   const TeamCreationScreen({Key? key}) : super(key: key);
@@ -10,18 +11,18 @@ class TeamCreationScreen extends StatefulWidget {
 }
 
 class _TeamCreationScreenState extends State<TeamCreationScreen> {
-  TeamInputCard firstTeam = TeamInputCard(
+  TeamInputCard firstTeam = new TeamInputCard(
     "First Team",
   );
-  TeamInputCard secondTeam = TeamInputCard(
+  TeamInputCard secondTeam = new TeamInputCard(
     "Second Team",
   );
-  final timeController = TextEditingController(
+  final timeController = new TextEditingController(
     text: null,
   );
 
   bool teamCreationValidator() {
-    if (timeController.text == null) {
+    if (timeController.text.isEmpty) {
       return false;
     }
     final int time = int.parse(timeController.text);
@@ -92,23 +93,30 @@ class _TeamCreationScreenState extends State<TeamCreationScreen> {
                           width: 10,
                         ),
                         Expanded(
-                          child: TextField(
-                            controller: timeController,
-                            keyboardType: TextInputType.number,
-                            cursorColor: Colors.white,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly,
-                            ],
-                            style: TextStyle(
-                              color: Colors.white,
+                          child: Card(
+                            color: Theme.of(context).accentColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15.0),
                             ),
-                            decoration: InputDecoration(
-                              hintText: "in minutes",
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15.0),
+                            elevation: 4,
+                            child: TextField(
+                              controller: timeController,
+                              keyboardType: TextInputType.number,
+                              cursorColor: Colors.white,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly,
+                              ],
+                              style: TextStyle(
+                                color: Colors.white,
                               ),
-                              isDense: true,
-                              contentPadding: EdgeInsets.all(8),
+                              decoration: InputDecoration(
+                                hintText: "in minutes",
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                ),
+                                isDense: true,
+                                contentPadding: EdgeInsets.all(7),
+                              ),
                             ),
                           ),
                         ),
@@ -120,7 +128,26 @@ class _TeamCreationScreenState extends State<TeamCreationScreen> {
                   onPressed: () {
                     print("start button taped");
                     if (this.teamCreationValidator()) {
-                      Navigator.pushNamed(context, '/match', arguments: null);
+                      final team1 = Team(
+                        firstTeam.teamNameController.text,
+                        int.parse(firstTeam.teamPlayersController.text),
+                        int.parse(firstTeam.teamSubsController.text),
+                      );
+                      final team2 = Team(
+                        secondTeam.teamNameController.text,
+                        int.parse(secondTeam.teamPlayersController.text),
+                        int.parse(secondTeam.teamSubsController.text),
+                      );
+                      var arguments = {
+                        'firstTeam': team1,
+                        'secondTeam': team2,
+                        'time': int.parse(timeController.text)
+                      };
+                      Navigator.pushNamed(
+                        context,
+                        '/match',
+                        arguments: arguments,
+                      );
                       print("in match screen");
                     }
                   },
