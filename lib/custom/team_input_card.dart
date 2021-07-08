@@ -5,7 +5,6 @@ class TeamInputCard extends StatefulWidget {
   // const TeamInputCard({Key? key}) : super(key: key);
   final String teamCardName;
   TeamInputCard(this.teamCardName);
-  bool flag = false;
   final teamNameController = TextEditingController(
     text: null,
   );
@@ -17,22 +16,20 @@ class TeamInputCard extends StatefulWidget {
   );
 
   bool inputTeamValidator() {
-    this.flag = false;
     if (teamNameController.text.isEmpty ||
         teamPlayersController.text.isEmpty ||
         teamSubsController.text.isEmpty) {
       print("null");
-      return this.flag;
+      return false;
     }
     final int teamPlayers = int.parse(this.teamPlayersController.text);
     final int teamSubs = int.parse(this.teamSubsController.text);
     if (teamPlayers < 3 || teamPlayers > 11 || teamSubs > 7) {
       print("players subs");
-      return this.flag;
+      return false;
     }
 
-    this.flag = true;
-    return this.flag;
+    return true;
   }
 
   @override
@@ -95,7 +92,7 @@ class _TeamInputCardState extends State<TeamInputCard> {
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15.0),
                         ),
-                        isDense: true, // Added this
+                        isDense: true,
                         contentPadding: EdgeInsets.all(7),
                       ),
                     ),

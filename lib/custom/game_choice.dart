@@ -40,7 +40,6 @@ class GameChoice extends StatelessWidget {
               this.matchType,
               style: TextStyle(
                 fontSize: 25,
-                // fontWeight: FontWeight.bold,
               ),
             ),
           ),

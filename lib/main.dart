@@ -44,28 +44,25 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     final appBar = AppBar(
-      title: Text("Local Football Scorer"),
+      title: Text("Football Scorer"),
     );
-    final mediaQuery = MediaQuery.of(context);
-    final appHeight = mediaQuery.size.height -
-        mediaQuery.padding.top -
-        appBar.preferredSize.height;
+
     return Scaffold(
       appBar: appBar,
       body: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
+            Spacer(),
             GameChoice(
               "Tournament",
             ),
-            SizedBox(
-              height: appHeight * 0.1,
-            ),
+            Spacer(),
             GameChoice(
               "Quick Match",
             ),
+            Spacer()
           ],
         ),
       ),

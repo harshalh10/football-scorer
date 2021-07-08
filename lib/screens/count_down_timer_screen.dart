@@ -65,6 +65,7 @@ class _CountDownTimerPageState extends State<CountDownTimerPage> {
               initialData: _stopWatchTimer.rawTime.value,
               builder: (context, snap) {
                 final value = snap.data!;
+                print("value = $value");
                 final displayTime =
                     StopWatchTimer.getDisplayTime(value, hours: _isHours);
                 return Column(

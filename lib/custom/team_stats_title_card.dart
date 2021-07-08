@@ -15,8 +15,30 @@ class TeamStatsTitleCard extends StatelessWidget {
       elevation: 4,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Text(this.title),
+        child: Text(
+          this.title,
+        ),
       ),
     );
   }
 }
+
+// Widget build(BuildContext context) {
+//     return Flexible(
+//       child: Card(
+//         color: Theme.of(context).primaryColor,
+//         shape: RoundedRectangleBorder(
+//           borderRadius: BorderRadius.circular(15.0),
+//         ),
+//         elevation: 4,
+//         child: Padding(
+//           padding: const EdgeInsets.all(8.0),
+//           child: Text(
+//             this.title,
+//             overflow: TextOverflow.ellipsis,
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
