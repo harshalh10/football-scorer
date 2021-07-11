@@ -69,27 +69,28 @@ class _GoalPopUpScreenState extends State<GoalPopUpScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           TypeAheadFormField(
-              textFieldConfiguration: TextFieldConfiguration(
-                decoration: InputDecoration(labelText: 'Name'),
-                controller: widget.playerNameController,
-              ),
-              suggestionsCallback: (pattern) {
-                return getSuggestions(pattern);
-              },
-              itemBuilder: (context, String suggestion) {
-                return ListTile(
-                  title: Text(suggestion),
-                );
-              },
-              transitionBuilder: (context, suggestionsBox, controller) {
-                return suggestionsBox;
-              },
-              onSuggestionSelected: (String suggestion) {
-                widget.playerNameController.text = suggestion;
-              },
-              noItemsFoundBuilder: (BuildContext context) {
-                return Text('No Name Found!');
-              }),
+            textFieldConfiguration: TextFieldConfiguration(
+              decoration: InputDecoration(labelText: 'Name'),
+              controller: widget.playerNameController,
+            ),
+            suggestionsCallback: (pattern) {
+              return getSuggestions(pattern);
+            },
+            itemBuilder: (context, String suggestion) {
+              return ListTile(
+                title: Text(suggestion),
+              );
+            },
+            transitionBuilder: (context, suggestionsBox, controller) {
+              return suggestionsBox;
+            },
+            onSuggestionSelected: (String suggestion) {
+              widget.playerNameController.text = suggestion;
+            },
+            noItemsFoundBuilder: (BuildContext context) {
+              return Text('No Name Found!');
+            },
+          ),
         ],
       ),
       actions: <Widget>[

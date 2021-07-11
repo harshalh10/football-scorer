@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.lfs_app">
    <application
-        android:label="lfs_app"
+        android:label="Football Scorer"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

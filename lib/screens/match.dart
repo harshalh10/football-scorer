@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:lfs_app/custom/player_goal_list.dart';
+import '../custom/first_team_stat.dart';
+import '../custom/second_team_stat.dart';
 import '../screens/goal_modal_sheet.dart';
 import '../custom/team_stats_title_card.dart';
 import './count_down_timer_screen.dart';
 import '../models/team.dart';
 import './popup_screen.dart';
+import './abbrupt_quit_match_popup.dart' as abbruptlyQuitMatch;
+import './match_finish_screen.dart';
 
 class CurrentMatch extends StatefulWidget {
   const CurrentMatch({Key? key}) : super(key: key);
@@ -29,7 +32,8 @@ class _CurrentMatchState extends State<CurrentMatch> {
     final Team firstTeam = routeArgs['firstTeam'];
     final Team secondTeam = routeArgs['secondTeam'];
     CountDownTimerPage.time = routeArgs['time'];
-
+    MatchFinishScreen.teams['firstTeam'] = firstTeam;
+    MatchFinishScreen.teams['secondTeam'] = secondTeam;
     void startViewGoal(BuildContext ctx) {
       showModalBottomSheet(
         context: ctx,
@@ -43,400 +47,194 @@ class _CurrentMatchState extends State<CurrentMatch> {
       );
     }
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Match",
+    return WillPopScope(
+      onWillPop: () async {
+        return abbruptlyQuitMatch.onBackPressedCall(context);
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            "Match",
+          ),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              abbruptlyQuitMatch.popupDialogCreation(context);
+            },
+          ),
         ),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            CountDownTimerPage(),
-            Padding(
-              padding: const EdgeInsets.all(8),
-              child: Card(
-                color: Theme.of(context).accentColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
-                elevation: 4,
-                child: Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          TeamStatsTitleCard(firstTeam.name),
-                          TeamStatsTitleCard("Team Stats"),
-                          TeamStatsTitleCard(secondTeam.name),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Row(
-                            children: [
-                              GoalPopUpScreen(firstTeam, refresh),
-                              Text(
-                                "${firstTeam.teamGoals}",
-                                style: TextStyle(
-                                  fontSize: 30,
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              CountDownTimerPage(),
+              Padding(
+                padding: const EdgeInsets.all(8),
+                child: Card(
+                  color: Theme.of(context).accentColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                  elevation: 4,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            TeamStatsTitleCard(firstTeam.name),
+                            TeamStatsTitleCard("Team Stats"),
+                            TeamStatsTitleCard(secondTeam.name),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Row(
+                              children: [
+                                GoalPopUpScreen(firstTeam, refresh),
+                                Text(
+                                  "${firstTeam.teamGoals}",
+                                  style: TextStyle(
+                                    fontSize: 30,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          Spacer(),
-                          TeamStatsTitleCard("Goals"),
-                          Spacer(),
-                          Row(
-                            children: [
-                              Text(
-                                "${secondTeam.teamGoals}",
-                                style: TextStyle(
-                                  fontSize: 30,
+                              ],
+                            ),
+                            Spacer(),
+                            TeamStatsTitleCard("Goals"),
+                            Spacer(),
+                            Row(
+                              children: [
+                                Text(
+                                  "${secondTeam.teamGoals}",
+                                  style: TextStyle(
+                                    fontSize: 30,
+                                  ),
                                 ),
-                              ),
-                              GoalPopUpScreen(secondTeam, refresh),
-                            ],
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Row(
-                            children: [
-                              ElevatedButton(
-                                onPressed: () {
-                                  setState(() {
-                                    firstTeam.passes++;
-                                  });
-                                },
-                                child: Icon(
-                                  Icons.add,
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                  shape: CircleBorder(),
-                                ),
-                              ),
-                              Text(
-                                "${firstTeam.passes}",
-                                style: TextStyle(
-                                  fontSize: 30,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Spacer(),
-                          TeamStatsTitleCard("Passes"),
-                          Spacer(),
-                          Row(
-                            children: [
-                              Text(
-                                "${secondTeam.passes}",
-                                style: TextStyle(
-                                  fontSize: 30,
-                                ),
-                              ),
-                              ElevatedButton(
-                                onPressed: () {
-                                  setState(() {
-                                    secondTeam.passes++;
-                                  });
-                                },
-                                child: Icon(
-                                  Icons.add,
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                  shape: CircleBorder(),
-                                ),
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Row(
-                            children: [
-                              ElevatedButton(
-                                onPressed: () {
-                                  setState(() {
-                                    firstTeam.fouls++;
-                                  });
-                                },
-                                child: Icon(
-                                  Icons.add,
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                  shape: CircleBorder(),
-                                ),
-                              ),
-                              Text(
-                                "${firstTeam.fouls}",
-                                style: TextStyle(
-                                  fontSize: 30,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Spacer(),
-                          TeamStatsTitleCard("Fouls"),
-                          Spacer(),
-                          Row(
-                            children: [
-                              Text(
-                                "${secondTeam.fouls}",
-                                style: TextStyle(
-                                  fontSize: 30,
-                                ),
-                              ),
-                              ElevatedButton(
-                                onPressed: () {
-                                  setState(() {
-                                    secondTeam.fouls++;
-                                  });
-                                },
-                                child: Icon(
-                                  Icons.add,
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                  shape: CircleBorder(),
-                                ),
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Row(
-                            children: [
-                              ElevatedButton(
-                                onPressed: () {
-                                  setState(() {
-                                    firstTeam.yellowCards++;
-                                  });
-                                },
-                                child: Icon(
-                                  Icons.add,
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                  shape: CircleBorder(),
-                                ),
-                              ),
-                              Text(
-                                "${firstTeam.yellowCards}",
-                                style: TextStyle(
-                                  fontSize: 30,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Spacer(),
-                          TeamStatsTitleCard("Yellow cards"),
-                          Spacer(),
-                          Row(
-                            children: [
-                              Text(
-                                "${secondTeam.yellowCards}",
-                                style: TextStyle(
-                                  fontSize: 30,
-                                ),
-                              ),
-                              ElevatedButton(
-                                onPressed: () {
-                                  setState(() {
-                                    secondTeam.yellowCards++;
-                                  });
-                                },
-                                child: Icon(
-                                  Icons.add,
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                  shape: CircleBorder(),
-                                ),
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Row(
-                            children: [
-                              ElevatedButton(
-                                onPressed: () {
-                                  setState(() {
-                                    firstTeam.redCards++;
-                                  });
-                                },
-                                child: Icon(
-                                  Icons.add,
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                  shape: CircleBorder(),
-                                ),
-                              ),
-                              Text(
-                                "${firstTeam.redCards}",
-                                style: TextStyle(
-                                  fontSize: 30,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Spacer(),
-                          TeamStatsTitleCard("Red cards"),
-                          Spacer(),
-                          Row(
-                            children: [
-                              Text(
-                                "${secondTeam.redCards}",
-                                style: TextStyle(
-                                  fontSize: 30,
-                                ),
-                              ),
-                              ElevatedButton(
-                                onPressed: () {
-                                  setState(() {
-                                    secondTeam.redCards++;
-                                  });
-                                },
-                                child: Icon(
-                                  Icons.add,
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                  shape: CircleBorder(),
-                                ),
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Row(
-                            children: [
-                              ElevatedButton(
-                                onPressed: () {
-                                  setState(() {
-                                    firstTeam.offsides++;
-                                  });
-                                },
-                                child: Icon(
-                                  Icons.add,
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                  shape: CircleBorder(),
-                                ),
-                              ),
-                              Text(
-                                "${firstTeam.offsides}",
-                                style: TextStyle(
-                                  fontSize: 30,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Spacer(),
-                          TeamStatsTitleCard("Offsides"),
-                          Spacer(),
-                          Row(
-                            children: [
-                              Text(
-                                "${secondTeam.offsides}",
-                                style: TextStyle(
-                                  fontSize: 30,
-                                ),
-                              ),
-                              ElevatedButton(
-                                onPressed: () {
-                                  setState(() {
-                                    secondTeam.offsides++;
-                                  });
-                                },
-                                child: Icon(
-                                  Icons.add,
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                  shape: CircleBorder(),
-                                ),
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Row(
-                            children: [
-                              ElevatedButton(
-                                onPressed: () {
-                                  setState(() {
-                                    firstTeam.corners++;
-                                  });
-                                },
-                                child: Icon(
-                                  Icons.add,
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                  shape: CircleBorder(),
-                                ),
-                              ),
-                              Text(
-                                "${firstTeam.corners}",
-                                style: TextStyle(
-                                  fontSize: 30,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Spacer(),
-                          TeamStatsTitleCard("Corners"),
-                          Spacer(),
-                          Row(
-                            children: [
-                              Text(
-                                "${secondTeam.corners}",
-                                style: TextStyle(
-                                  fontSize: 30,
-                                ),
-                              ),
-                              ElevatedButton(
-                                onPressed: () {
-                                  setState(() {
-                                    secondTeam.corners++;
-                                  });
-                                },
-                                child: Icon(
-                                  Icons.add,
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                  shape: CircleBorder(),
-                                ),
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
+                                GoalPopUpScreen(secondTeam, refresh),
+                              ],
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            // Row(
+                            //   children: [
+                            //     ElevatedButton(
+                            //       onPressed: () {
+                            //         setState(() {
+                            //           firstTeam.passes++;
+                            //         });
+                            //       },
+                            //       child: Icon(
+                            //         Icons.add,
+                            //       ),
+                            //       style: ElevatedButton.styleFrom(
+                            //         shape: CircleBorder(),
+                            //       ),
+                            //     ),
+                            //     Text(
+                            //       "${firstTeam.passes}",
+                            //       style: TextStyle(
+                            //         fontSize: 30,
+                            //       ),
+                            //     ),
+                            //   ],
+                            // ),
+                            FirstTeamStat(firstTeam, "passes"),
+                            Spacer(),
+                            TeamStatsTitleCard("Passes"),
+                            Spacer(),
+                            SecondTeamStat(secondTeam, "passes"),
+                            // Row(
+                            //   children: [
+                            //     Text(
+                            //       "${secondTeam.passes}",
+                            //       style: TextStyle(
+                            //         fontSize: 30,
+                            //       ),
+                            //     ),
+                            //     ElevatedButton(
+                            //       onPressed: () {
+                            //         setState(() {
+                            //           secondTeam.passes++;
+                            //         });
+                            //       },
+                            //       child: Icon(
+                            //         Icons.add,
+                            //       ),
+                            //       style: ElevatedButton.styleFrom(
+                            //         shape: CircleBorder(),
+                            //       ),
+                            //     )
+                            //   ],
+                            // ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            FirstTeamStat(firstTeam, "fouls"),
+                            Spacer(),
+                            TeamStatsTitleCard("Fouls"),
+                            Spacer(),
+                            SecondTeamStat(secondTeam, "fouls"),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            FirstTeamStat(firstTeam, "yellowCards"),
+                            Spacer(),
+                            TeamStatsTitleCard("Yellow cards"),
+                            Spacer(),
+                            SecondTeamStat(secondTeam, "yellowCards"),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            FirstTeamStat(firstTeam, "redCards"),
+                            Spacer(),
+                            TeamStatsTitleCard("Red cards"),
+                            Spacer(),
+                            SecondTeamStat(secondTeam, "redCards"),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            FirstTeamStat(firstTeam, "offsides"),
+                            Spacer(),
+                            TeamStatsTitleCard("Offsides"),
+                            Spacer(),
+                            SecondTeamStat(secondTeam, "offsides"),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            FirstTeamStat(firstTeam, "corners"),
+                            Spacer(),
+                            TeamStatsTitleCard("Corners"),
+                            Spacer(),
+                            SecondTeamStat(secondTeam, "corners"),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0), // <-- Radius
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Theme.of(context).accentColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0), // <-- Radius
+                  ),
                 ),
-              ),
-              child: Text("View Goals"),
-              onPressed: () {
-                startViewGoal(context);
-              },
-            )
-          ],
+                child: Text("View Goals"),
+                onPressed: () {
+                  startViewGoal(context);
+                },
+              )
+            ],
+          ),
         ),
       ),
     );

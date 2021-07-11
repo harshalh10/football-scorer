@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import './screens/side_drawer.dart';
+import '../screens/match_finish_screen.dart';
 import './screens/match.dart';
 import './screens/team_creation_screen.dart';
 import 'custom/game_choice.dart';
@@ -12,7 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Football Scorer',
       theme: ThemeData(
         fontFamily: 'Poppins',
         textTheme: TextTheme(
@@ -30,6 +32,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/team-creation': (context) => TeamCreationScreen(),
         '/match': (context) => CurrentMatch(),
+        '/match-finish': (context) => MatchFinishScreen(),
       },
     );
   }
@@ -49,6 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Scaffold(
       appBar: appBar,
+      drawer: SideDrawer(),
       body: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,

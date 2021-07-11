@@ -29,7 +29,8 @@ class _TeamCreationScreenState extends State<TeamCreationScreen> {
     if (firstTeam.inputTeamValidator() &&
         secondTeam.inputTeamValidator() &&
         time > 0 &&
-        time < 100) {
+        time < 100 &&
+        time % 2 == 0) {
       print("going next screen");
       return true;
     }
@@ -38,14 +39,14 @@ class _TeamCreationScreenState extends State<TeamCreationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final mediaQuery = MediaQuery.of(context);
+    // final mediaQuery = MediaQuery.of(context);
     final routeArgs = ModalRoute.of(context)!.settings.arguments as String;
     final appBar = AppBar(
       title: Text(routeArgs),
     );
-    final appHeight = mediaQuery.size.height -
-        mediaQuery.padding.top -
-        appBar.preferredSize.height;
+    // final appHeight = mediaQuery.size.height -
+    //     mediaQuery.padding.top -
+    //     appBar.preferredSize.height;
 
     return Scaffold(
       appBar: appBar,
@@ -110,7 +111,7 @@ class _TeamCreationScreenState extends State<TeamCreationScreen> {
                                 color: Colors.white,
                               ),
                               decoration: InputDecoration(
-                                hintText: "in minutes",
+                                hintText: "in even minutes",
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(15.0),
                                 ),

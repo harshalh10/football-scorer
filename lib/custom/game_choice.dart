@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lfs_app/screens/coming_soon.dart';
 
 class GameChoice extends StatelessWidget {
   // const GameChoice({Key? key}) : super(key: key);
@@ -30,6 +31,10 @@ class GameChoice extends StatelessWidget {
               arguments: this.matchType,
             );
             print('Quick Match Card tapped.');
+          }
+          if (this.matchType == "Tournament") {
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => Tournament()));
           }
         },
         child: SizedBox(

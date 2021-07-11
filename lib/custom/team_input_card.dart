@@ -18,7 +18,8 @@ class TeamInputCard extends StatefulWidget {
   bool inputTeamValidator() {
     if (teamNameController.text.isEmpty ||
         teamPlayersController.text.isEmpty ||
-        teamSubsController.text.isEmpty) {
+        teamSubsController.text.isEmpty ||
+        teamNameController.text.length > 20) {
       print("null");
       return false;
     }
@@ -68,7 +69,9 @@ class _TeamInputCardState extends State<TeamInputCard> {
                   elevation: 4,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text("Name:"),
+                    child: Text(
+                      "Name:",
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -94,6 +97,7 @@ class _TeamInputCardState extends State<TeamInputCard> {
                         ),
                         isDense: true,
                         contentPadding: EdgeInsets.all(7),
+                        hintText: "max 20 characters",
                       ),
                     ),
                   ),
